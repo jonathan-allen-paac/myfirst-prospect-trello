@@ -49,7 +49,7 @@ function ogi_sync_BQS($day) {
         $key = $row['Branch@'] . '|' . $row['Key@'];
     
         if (!isset($existingKeys[$key])) {
-    
+            $dob = $row['Dob'] ? $row['Dob']->format('Y-m-d') : "";
             $rowsToInsert[] = [
                 'B' => $row['Branch@'],
                 'Key' => $row['Key@'],
@@ -64,7 +64,7 @@ function ogi_sync_BQS($day) {
                 'Addr3' => $row['Addr3'],
                 'Addr4' => $row['Addr4'],
                 'Pcode' => $row['Pcode'],
-                'Dob' => $row['Dob'],
+                'Dob' => $dob,
                 'Freetext2' => $row['Freetext2']
             ];
         }
