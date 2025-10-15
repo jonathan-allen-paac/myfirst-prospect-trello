@@ -27,16 +27,17 @@ if($no_records >= 1) {
             <br>OGI Client Reference: '.$row['PolicyRef@'].'
         ';
         $addresses = $notificationEmails;
+        $addressstring = implode(", ", $addresses);
         $attachments = array();
         mailersend($addresses,$subject,$body,$attachments);
         if($mailstatus == true) {
             echo "Report email sent with $no_records records";
-            $sql = "UPDATE `myfirst-prospect-trello` SET notified = 1 where id = $id";
+            $sql = "UPDATE `myfirst-prospect-trello` SET notified = 1, `sent`='$addressstring' where id = $id";
             if (mysqlUpdate($sql) === TRUE) {}
         } else {
             $type = "Error Sending Email";
             $message = $conn->escape_string("SMTP ERROR: $errmsg");
-            $sql = "UPDATE `myfirst-prospect-trello` SET notified = 2, error = '$message' where id = $id";
+            $sql = "UPDATE `myfirst-prospect-trello` SET notified = 2, `sent`='$addressstring', error = '$message' where id = $id";
             if (mysqlUpdate($sql) === TRUE) {}
             logEntry($type,$message);
             echo "ERROR: " . $errmsg;
