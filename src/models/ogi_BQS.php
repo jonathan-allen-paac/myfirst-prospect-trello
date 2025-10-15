@@ -18,8 +18,8 @@ $OGIQuery = "SELECT
         B.LastUpdatedTime
     FROM
         icp_Daprospect C INNER JOIN
-        icp_Dapolicy P ON C.Branch@ = P.Branch@ AND C.ClientRef@ = P.ClientRef@ INNER JOIN
-        icp_DP_BQS B ON B.Branch@ = C.Branch@ AND B.PolicyRef@ = P.PolicyRef@";
+        icp_Dapolicy P ON C.[Branch@] = P.[Branch@] AND C.[ClientRef@] = P.[ClientRef@] INNER JOIN
+        icp_DP_BQS B ON B.[Branch@] = C.[Branch@] AND B.[PolicyRef@] = P.[PolicyRef@]";
 
 //OGI CHKD Sync
 function ogi_sync_BQS($day) {
