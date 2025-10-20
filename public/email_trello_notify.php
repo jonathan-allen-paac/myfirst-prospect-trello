@@ -7,7 +7,7 @@ require_once(ROOT.INC_CONFIG."inc.mailer.php");
 
 $date = date('l M dS Y  h:i A',time());
 
-$sql = "SELECT * FROM `myfirst-prospect-trello` WHERE notified = 0";
+$sql = "SELECT * FROM `myfirst-prospect-trello` WHERE Freetext2 = 'Bill Plant' and notified = 0";
 $res_data = mysqli_query($conn,$sql) or die($conn->error);
 $no_records = $res_data->num_rows;
 if($no_records >= 1) {
