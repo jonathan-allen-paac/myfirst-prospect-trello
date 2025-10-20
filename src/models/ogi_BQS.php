@@ -36,7 +36,7 @@ function ogi_sync_BQS($day) {
     global $conn,$OGIQuery;
     //fetch list by passed date - OGI
     $mssqlRows = mssqlFetch("$OGIQuery
-    WHERE P.[Branch@] = 0 and CONVERT(DATE, B.[LastUpdatedTime]) = '$day' and Freetext2 = 'Bill Plant'
+    WHERE P.[Branch@] = 0 and CONVERT(DATE, B.[LastUpdatedTime]) = '$day'
     ORDER BY B.[LastUpdatedTime] DESC");
 
     //fetch list by passed date - local
