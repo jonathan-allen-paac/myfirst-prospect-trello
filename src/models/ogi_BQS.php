@@ -33,7 +33,7 @@ function ogi_sync_BQS($day) {
     //fetch list by passed date - local
     $mysqlRows = mysqlFetch("SELECT `B@`
     ,`Key@`
-    FROM `myfirst-telematic-sync`.`myfirst-prospect-trello`
+    FROM `myfirst-sync`.`myfirst-prospect-trello`
     WHERE DATE(`LastUpdatedTime`) = '$day'");
     //bulid matching array from local data
     $existingKeys = [];
