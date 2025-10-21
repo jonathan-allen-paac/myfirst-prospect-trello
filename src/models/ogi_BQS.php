@@ -98,20 +98,20 @@ function ogi_sync_BQS($day) {
             $Date_first_cont = $conn->escape_string($row['Date_first_cont']);
             $ClientRef = $conn->escape_string($row['ClientRef@']);
             $PolicyRef = $conn->escape_string($row['PolicyRef@']);
-            $Name = $row['#Name'];
-            $Email = $row['Email'];
-            $Tel = $row['Tel'];
-            $Addr1 = $row['Addr1'];
-            $Addr2 = $row['Addr2'];
-            $Addr3 = $row['Addr3'];
-            $Addr4 = $row['Addr4'];
-            $Pcode = $row['Pcode'];
-            $Dob = $row['Dob'];
-            $Freetext2 = $row['Freetext2'];
-            $Model = $row['Model'];
-            $Make = $row['Make'];
-            $Occupation = $row['Occupation'];
-            $LicenseType = $row['LicenseType'];
+            $Name = $conn->escape_string($row['#Name']);
+            $Email = $conn->escape_string($row['Email']);
+            $Tel = $conn->escape_string($row['Tel']);
+            $Addr1 = $conn->escape_string($row['Addr1']);
+            $Addr2 = $conn->escape_string($row['Addr2']);
+            $Addr3 = $conn->escape_string($row['Addr3']);
+            $Addr4 = $conn->escape_string($row['Addr4']);
+            $Pcode = $conn->escape_string($row['Pcode']);
+            $Dob = $conn->escape_string($row['Dob']);
+            $Freetext2 = $conn->escape_string($row['Freetext2']);
+            $Model = $conn->escape_string($row['Model']);
+            $Make = $conn->escape_string($row['Make']);
+            $Occupation = $conn->escape_string($row['Occupation']);
+            $LicenseType = $conn->escape_string($row['LicenseType']);
             
             mysqlInsert("INSERT INTO `myfirst-prospect-trello` (`B@`, `Key@`, `LastUpdatedTime`, `Date_first_cont`, `ClientRef@`, `PolicyRef@`,`Synced`,
             `#Name`,`Email`,`Tel`,`Addr1`,`Addr2`,`Addr3`,`Addr4`,`Pcode`,`Dob`,`Freetext2`,Model,Make,Occupation,LicenseType)
