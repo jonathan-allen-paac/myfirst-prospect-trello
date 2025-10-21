@@ -37,8 +37,8 @@ function ogi_sync_BQS($day) {
     global $conn,$OGIQuery;
     //fetch list by passed date - OGI
     $mssqlRows = mssqlFetch("$OGIQuery
-    WHERE P.[Branch@] = 0 and CONVERT(DATE, B.[Date_first_cont]) = '$day'
-    ORDER BY B.[Date_first_cont] DESC");
+    WHERE P.[Branch@] = 0 and CONVERT(DATE, C.[Date_first_cont]) = '$day'
+    ORDER BY C.[Date_first_cont] DESC");
 
     //fetch list by passed date - local
     $mysqlRows = mysqlFetch("SELECT `B@`
@@ -82,6 +82,7 @@ function ogi_sync_BQS($day) {
                 'Occupation' => $row['Occupation'],
                 'LicenseType' => $row['LicenseType']
             ];
+            $existingKeys[$key] = true;
         }
     }
     if (count($rowsToInsert) == 0) {
