@@ -47,7 +47,7 @@ function ogi_sync_BQS($day) {
     //bulid matching array from local data
     $existingKeys = [];
     while($row = mysqli_fetch_array($mysqlRows)) {
-        $key = $row['B@'] . '|' . $row['Key@'];
+        $key = $row['B@'] . '|' . $row['ClientRef@'];
         $existingKeys[$key] = true;
     }
 
@@ -55,7 +55,7 @@ function ogi_sync_BQS($day) {
 
     //compare data from OGI and build difference list
     while ($row = sqlsrv_fetch_array($mssqlRows, SQLSRV_FETCH_ASSOC)) {
-        $key = $row['Branch@'] . '|' . $row['Key@'];
+        $key = $row['Branch@'] . '|' . $row['ClientRef@'];
     
         if (!isset($existingKeys[$key])) {
             $dob = $row['Dob'] ? $row['Dob']->format('Y-m-d') : "";
