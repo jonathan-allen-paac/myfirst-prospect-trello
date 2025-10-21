@@ -19,7 +19,8 @@ $OGIQuery = "SELECT
 		V.Model,
 		M.VTDescription AS Make,
 		O.VTDescription AS Occupation,
-		T.VTDescription AS LicenseType
+		T.VTDescription AS LicenseType,
+        C.Date_first_cont
     FROM
         icp_Daprospect C
 		INNER JOIN icp_Dapolicy P ON C.[Branch@] = P.[Branch@] AND C.[ClientRef@] = P.[ClientRef@]
@@ -36,14 +37,14 @@ function ogi_sync_BQS($day) {
     global $conn,$OGIQuery;
     //fetch list by passed date - OGI
     $mssqlRows = mssqlFetch("$OGIQuery
-    WHERE P.[Branch@] = 0 and CONVERT(DATE, B.[LastUpdatedTime]) = '$day'
-    ORDER BY B.[LastUpdatedTime] DESC");
+    WHERE P.[Branch@] = 0 and CONVERT(DATE, B.[Date_first_cont]) = '$day'
+    ORDER BY B.[Date_first_cont] DESC");
 
     //fetch list by passed date - local
     $mysqlRows = mysqlFetch("SELECT `B@`
-    ,`Key@`
+    ,`ClientRef@`
     FROM `myfirst-sync`.`myfirst-prospect-trello`
-    WHERE DATE(`LastUpdatedTime`) = '$day'");
+    WHERE DATE(`Date_first_cont`) = '$day'");
     //bulid matching array from local data
     $existingKeys = [];
     while($row = mysqli_fetch_array($mysqlRows)) {
@@ -63,6 +64,7 @@ function ogi_sync_BQS($day) {
                 'B' => $row['Branch@'],
                 'Key' => $row['Key@'],
                 'LastUpdatedTime' => $row['LastUpdatedTime']->format('Y-m-d H:i:s'),
+                'Date_first_cont' => $row['Date_first_cont']->format('Y-m-d'),
                 'ClientRef@' => $row['ClientRef@'],
                 'PolicyRef@' => $row['PolicyRef@'],
                 '#Name' => $row['#Name'],
@@ -92,6 +94,7 @@ function ogi_sync_BQS($day) {
             $B = $conn->escape_string($row['B']);
             $Key = $conn->escape_string($row['Key']);
             $LastUpdatedTime = $conn->escape_string($row['LastUpdatedTime']);
+            $Date_first_cont = $conn->escape_string($row['Date_first_cont']);
             $ClientRef = $conn->escape_string($row['ClientRef@']);
             $PolicyRef = $conn->escape_string($row['PolicyRef@']);
             $Name = $row['#Name'];
@@ -109,9 +112,9 @@ function ogi_sync_BQS($day) {
             $Occupation = $row['Occupation'];
             $LicenseType = $row['LicenseType'];
             
-            mysqlInsert("INSERT INTO `myfirst-prospect-trello` (`B@`, `Key@`, `LastUpdatedTime`, `ClientRef@`, `PolicyRef@`,`Synced`,
+            mysqlInsert("INSERT INTO `myfirst-prospect-trello` (`B@`, `Key@`, `LastUpdatedTime`, `Date_first_cont`, `ClientRef@`, `PolicyRef@`,`Synced`,
             `#Name`,`Email`,`Tel`,`Addr1`,`Addr2`,`Addr3`,`Addr4`,`Pcode`,`Dob`,`Freetext2`,Model,Make,Occupation,LicenseType)
-            VALUES ('$B', '$Key', '$LastUpdatedTime', '$ClientRef', '$PolicyRef', NOW(),
+            VALUES ('$B', '$Key', '$LastUpdatedTime', '$Date_first_cont', '$ClientRef', '$PolicyRef', NOW(),
             '$Name','$Email','$Tel','$Addr1','$Addr2','$Addr3','$Addr4','$Pcode','$Dob','$Freetext2',
             '$Model','$Make','$Occupation','$LicenseType')");
         }
